@@ -22,3 +22,8 @@ schema
 
 Given this directory structure and set of files, ```coblr cobble``` will create a database with namespaces ns1 and ns2, each with a table called transactions.  The tables' columns are derived from the column headers in the spreadsheets.  The records from the spreadsheets are then loaded into the database.
 
+
+### todo
+- infer field types rather than unicodifying blindly
+- detect relationships and construct foreign keys
+- add framework for massaging spreadsheets prior to ingestion
