@@ -29,8 +29,14 @@ class Coblr(object):
         engine =  create_engine('postgresql+psycopg2://localhost:5432')
         session = sessionmaker(bind=engine)()
         session.connection().connection.set_isolation_level(0)
-        session.execute('CREATE DATABASE {}'.format(self.database_name))
-        session.connection().connection.set_isolation_level(1)
+        database_already_exists = session.execute("""
+            SELECT datname FROM pg_database
+            WHERE datname = '{}'
+            """.format(self.database_name)
+        ).rowcount
+        if not database_already_exists:
+            session.execute('CREATE DATABASE {}'.format(self.database_name))
+            session.connection().connection.set_isolation_level(1)
 
     def materialize_schema(self):
         self.engine =  create_engine(
